@@ -1,0 +1,7 @@
+apiVersion: app.operator.com/v1
+kind: Sredep
+metadata:
+  name: sredep-sample
+spec:
+  # Add fields here
+  foo: bar

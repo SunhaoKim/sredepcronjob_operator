@@ -1,0 +1,20 @@
+# permissions for end users to view sredeps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: sredep-viewer-role
+rules:
+- apiGroups:
+  - app.operator.com
+  resources:
+  - sredeps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - app.operator.com
+  resources:
+  - sredeps/status
+  verbs:
+  - get

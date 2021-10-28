@@ -1,0 +1,24 @@
+# permissions for end users to edit sredeps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: sredep-editor-role
+rules:
+- apiGroups:
+  - app.operator.com
+  resources:
+  - sredeps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - app.operator.com
+  resources:
+  - sredeps/status
+  verbs:
+  - get
