@@ -100,7 +100,12 @@ func main() {
 		setupLog.Error(err, "unable to set up ready check")
 		os.Exit(1)
 	}
-
+	if os.Getenv("ENABLE_WEBHOOKS") != "false" {
+		if err = (&appv1.Sredep{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "Captain")
+			os.Exit(1)
+		}
+	}
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
