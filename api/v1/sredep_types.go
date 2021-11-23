@@ -17,25 +17,43 @@ limitations under the License.
 package v1
 
 import (
+	batchv1beta1 "k8s.io/api/batch/v1beta1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+type ConcurrencyPolicy string
+
+const (
+	AllowConcurrent   ConcurrencyPolicy = "Allow"
+	ForbidConcurrent  ConcurrencyPolicy = "Forbid"
+	ReplaceConcurrent ConcurrencyPolicy = "Replace"
+)
 
 // SredepSpec defines the desired state of Sredep
 type SredepSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of Sredep. Edit sredep_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	TaskCreator                string                   `json:"taskCreator"`
+	TaskAnnotation             string                   `json:"taskannotation"`
+	Schedule                   string                   `json:"schedule"`
+	StartingDeadlineSeconds    *int64                   `json:"startingdeaDlineSeconds,omitempty"`
+	ConcurrencyPolicy          ConcurrencyPolicy        `json:"concurrencyPolicy,omitempty"`
+	Suspend                    *bool                    `json:"suspend,omitempty"`
+	JobTemplate                batchv1beta1.JobTemplate `json:"jobTemplate"`
+	SuccessfulJobsHistoryLimit *int32                   `json:"successfulJobsHistoryLimit,omitempty"`
+	FailedJobsHistoryLimit     *int32                   `json:"failedJobsHistoryLimit,omitempty"`
+	DeadlineSeconds            *int64                   `json:"deadlineSeconds,omitempty"`
 }
 
 // SredepStatus defines the observed state of Sredep
 type SredepStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Active           []corev1.ObjectReference `json:"active,omitempty"`
+	LastScheduleTime *metav1.Time             `json:"lastScheduleTime,omitempty"`
 }
 
 //+kubebuilder:object:root=true
@@ -45,9 +63,8 @@ type SredepStatus struct {
 type Sredep struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   SredepSpec   `json:"spec,omitempty"`
-	Status SredepStatus `json:"status,omitempty"`
+	Spec              SredepSpec   `json:"spec,omitempty"`
+	Status            SredepStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true

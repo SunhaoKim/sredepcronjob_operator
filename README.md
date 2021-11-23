@@ -1,0 +1,1 @@
+参考https://cloudnative.to/kubebuilder/cronjob-tutorial/controller-implementation.html#5-%E8%AE%A1%E7%AE%97-job-%E4%B8%8B%E4%B8%80%E6%AC%A1%E6%89%A7%E8%A1%8C%E6%97%B6%E9%97%B4 实现controller kubebuild 学习笔记

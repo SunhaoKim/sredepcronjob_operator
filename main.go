@@ -80,9 +80,14 @@ func main() {
 
 	if err = (&controllers.SredepReconciler{
 		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("Sredep"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Sredep")
+		os.Exit(1)
+	}
+	if err = (&appv1.Sredep{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "Sredep")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder
