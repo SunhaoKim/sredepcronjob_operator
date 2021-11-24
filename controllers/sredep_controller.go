@@ -53,7 +53,7 @@ var (
 	mostRecentTime          *time.Time
 	apiGVStr                = appv1.GroupVersion.String()
 	jobOwnerKey             = ".metadata.controller"
-	scheduledTimeAnnotation = "github.com/SunhaoKim/deployment_operator/scheduled-at"
+	scheduledTimeAnnotation = "app.operator.com/scheduled-at"
 )
 
 //定义虚拟时钟方便调节时间
@@ -71,8 +71,8 @@ type Clock interface {
 //+kubebuilder:rbac:groups=app.operator.com,resources=sredeps,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=app.operator.com,resources=sredeps/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=app.operator.com,resources=sredeps/finalizers,verbs=update
-//+kubebuilder:rbac:groups=app.operator.com,resources=jobs,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=app.operator.com,resources=jobs/status,verbs=get
+//+kubebuilder:rbac:groups=app,resources=jobs,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=app,resources=jobs/status,verbs=get
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -280,7 +280,7 @@ func (r *SredepReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 				Name:        name,
 				Namespace:   sredep.Namespace,
 			},
-			Spec: *sredep.Spec.JobTemplate.Template.Spec.DeepCopy(),
+			Spec: *sredep.Spec.JobTemplate.Spec.DeepCopy(),
 		}
 		for k, v := range sredep.Spec.JobTemplate.Annotations {
 			job.Annotations[k] = v

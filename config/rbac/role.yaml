@@ -7,6 +7,24 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - app
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - app
+  resources:
+  - jobs/status
+  verbs:
+  - get
+- apiGroups:
   - app.operator.com
   resources:
   - sredeps
